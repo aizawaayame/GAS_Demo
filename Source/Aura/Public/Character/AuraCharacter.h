@@ -1,4 +1,4 @@
-
+// Copyright Druid Mechanics
 
 #pragma once
 
@@ -13,10 +13,4 @@ UCLASS()
 class AURA_API AAuraCharacter : public AAuraCharacterBase
 {
 	GENERATED_BODY()
-	
-public:
-	AAuraCharacter();
-
-protected:
-	virtual void BeginPlay() override;
 };

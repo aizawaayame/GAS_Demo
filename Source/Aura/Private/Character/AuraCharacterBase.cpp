@@ -1,8 +1,7 @@
-
+// Copyright Druid Mechanics
 
 
 #include "Character/AuraCharacterBase.h"
-
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -13,10 +12,9 @@ AAuraCharacterBase::AAuraCharacterBase()
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
-// Called when the game starts or when spawned
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+	
 }
-
 
