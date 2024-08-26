@@ -2,8 +2,14 @@
 
 
 #include "Player/AuraPlayerController.h"
+
+#include "Logging/LogMacros.h"
+#include "AuraEnemy.h"
+#include "Interaction/Highlight.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+
+// DEFINE_LOG_CATEGORY_STATIC(LogAuraPlayerController);
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -29,6 +35,12 @@ void AAuraPlayerController::BeginPlay()
 	SetInputMode(InputModeData);
 }
 
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+	CursorTrace();
+}
+
 void AAuraPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -52,4 +64,35 @@ void AAuraPlayerController::Move(const struct FInputActionValue& InputActionValu
 		ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
 	}
+}
+
+void AAuraPlayerController::CursorTrace()
+{
+	FHitResult Hit;
+	GetHitResultUnderCursor(ECC_Visibility, false, Hit);
+	if (!Hit.bBlockingHit)
+		return;
+	LastHighlight = CurrentHighlight;
+	CurrentHighlight = Hit.GetActor();
+
+	if (CurrentHighlight.GetObjectRef().IsA<AAuraEnemy>())
+		UE_LOG(LogPlayerController, Warning, TEXT("Current Highlight"));
+	
+	if (CurrentHighlight == nullptr && LastHighlight == nullptr)
+		return;
+	
+	if (LastHighlight == nullptr && CurrentHighlight != nullptr)
+	{
+		CurrentHighlight->Highlight();
+	}
+	else if (LastHighlight != nullptr && CurrentHighlight == nullptr)
+	{
+		LastHighlight->Unhighlight();
+	}
+	else if (CurrentHighlight != LastHighlight)
+	{
+		LastHighlight->Unhighlight();
+		CurrentHighlight->Highlight();
+	}
+	
 }
