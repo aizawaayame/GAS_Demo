@@ -74,9 +74,6 @@ void AAuraPlayerController::CursorTrace()
 		return;
 	LastHighlight = CurrentHighlight;
 	CurrentHighlight = Hit.GetActor();
-
-	if (CurrentHighlight.GetObjectRef().IsA<AAuraEnemy>())
-		UE_LOG(LogPlayerController, Warning, TEXT("Current Highlight"));
 	
 	if (CurrentHighlight == nullptr && LastHighlight == nullptr)
 		return;
