@@ -7,7 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/AuraPlayerGameState.h"
 
-AAuraPlayer::AAuraPlayer()
+AAuraPlayer::AAuraPlayer()	
 {
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0, 400, 0);

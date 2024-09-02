@@ -4,6 +4,7 @@
 #include "Player/AuraPlayerGameState.h"
 
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 
 AAuraPlayerGameState::AAuraPlayerGameState()
 {
@@ -14,7 +15,7 @@ AAuraPlayerGameState::AAuraPlayerGameState()
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 	
-	AttributeSet = CreateDefaultSubobject<UAttributeSet>("AttributeSet");
+	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
 
 UAbilitySystemComponent* AAuraPlayerGameState::GetAbilitySystemComponent() const
