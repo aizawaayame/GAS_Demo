@@ -6,6 +6,7 @@
 
 #include "AuraCharacterBase.generated.h"
 
+class UAuraAttributeSet;
 class UAttributeSet;
 class UAbilitySystemComponent;
 
@@ -18,7 +19,7 @@ public:
 	// Sets default values for this character's properties
 	AAuraCharacterBase();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
+	UAuraAttributeSet* GetAttributeSet() const {return AuraAttributeSet;}
 protected:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
@@ -27,7 +28,7 @@ protected:
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY()
-	TObjectPtr<UAttributeSet> AttributeSet;
+	TObjectPtr<UAuraAttributeSet> AuraAttributeSet;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
