@@ -58,6 +58,8 @@ public:
 	UFUNCTION()
 	virtual void BroadcastInitialization();
 
+	UFUNCTION()
+	virtual void BindCallbacksToDependencies();
 protected:
 	UPROPERTY(BlueprintReadOnly, Category= "Widget Controller")
 	TObjectPtr<APlayerController> PlayerController;
@@ -69,5 +71,5 @@ protected:
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY(BlueprintReadOnly, Category= "Widget Controller")
-	TObjectPtr<UAuraAttributeSet> AttributeSet;
+	TObjectPtr<UAuraAttributeSet> AuraAttributeSet;
 };
