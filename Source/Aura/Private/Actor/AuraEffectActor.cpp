@@ -31,6 +31,35 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplay
 	EffectContextHandle.AddSourceObject(this);
 	FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle);
 	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+
+	FActiveGameplayEffectHandle ActiveGEHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+	if (const auto GEDurationPolicy = EffectSpecHandle.Data.Get()->Def.Get()->DurationPolicy;
+		GEDurationPolicy == EGameplayEffectDurationType::Infinite)
+	{
+		ActiveEffectHandle2ASCPtrMap.Add(ActiveGEHandle, TargetASC);
+	}
+}
+
+void AAuraEffectActor::RemoveEffectFromTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass)
+{
+	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target);
+	if (!IsValid(TargetASC))
+		return;
+	
+	TArray<FActiveGameplayEffectHandle> HandlesToRemove;
+	for (const auto& Pair : ActiveEffectHandle2ASCPtrMap)
+	{
+		if (Pair.Value == TargetASC)
+		{
+			TargetASC->RemoveActiveGameplayEffect(Pair.Key);
+			HandlesToRemove.Add(Pair.Key);
+		}
+	}
+	
+	for (const auto& Handle : HandlesToRemove)
+	{
+		ActiveEffectHandle2ASCPtrMap.FindAndRemoveChecked(Handle);
+	}
 }
 
 
